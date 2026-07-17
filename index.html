@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>TinyTask Lab — 10 useful browser tools</title>
+  <meta name="description" content="Ten fast, private browser utilities. No install and no account required.">
+  <meta property="og:title" content="TinyTask Lab">
+  <meta property="og:description" content="10 useful tools. Zero installs.">
+  <meta property="og:image" content="./og.png">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main id="homePage">
+    <nav class="site-nav shell">
+      <a class="brand" href="./"><span class="brand-mark">T</span>TinyTask Lab</a>
+      <div class="nav-meta"><span class="live-dot"></span>10 experiments live</div>
+    </nav>
+    <header class="hero shell">
+      <div>
+        <p class="eyebrow">Browser utility sprint · Week one</p>
+        <h1>Ten useful tools.<br><span>Zero installs.</span></h1>
+        <p class="hero-lede">Fast, private utilities for the small jobs that interrupt your day. Every tool works before you create an account.</p>
+        <a class="button dark" href="#tools">Explore all tools ↓</a>
+      </div>
+      <div class="hero-board">
+        <div class="board-card large"><span>01</span><strong>Pick one job</strong><small>No bloated dashboards</small></div>
+        <div class="board-card lime"><span>02</span><strong>Work locally</strong><small>Your files stay yours</small></div>
+        <div class="board-card blue"><span>03</span><strong>Get the result</strong><small>Before any signup</small></div>
+      </div>
+    </header>
+    <section class="proof-strip"><div class="shell proof-grid"><div><strong>10</strong><span>live products</span></div><div><strong>0</strong><span>accounts required</span></div><div><strong>100%</strong><span>browser-first</span></div><div><strong>1 week</strong><span>validation sprint</span></div></div></section>
+    <section class="tool-section shell" id="tools">
+      <div class="section-heading"><div><p class="eyebrow">The launch set</p><h2>Choose a tiny task.</h2></div><p>Each card is a separate product experiment. The best-performing jobs earn batch mode and paid plans.</p></div>
+      <div class="tool-grid" id="toolGrid"></div>
+    </section>
+    <footer class="site-footer shell"><span>© 2026 TinyTask Lab</span><span>Private by default · Built for validation</span></footer>
+  </main>
+
+  <main id="toolPage" class="hidden">
+    <nav class="site-nav shell"><a class="brand" href="#"><span class="brand-mark">T</span>TinyTask Lab</a><a class="back-link" href="#">← All tools</a></nav>
+    <header class="tool-header shell"><div id="toolHeroBadge" class="tool-hero-badge"></div><div><p class="eyebrow" id="toolEyebrow"></p><h1 id="toolTitle"></h1><p id="toolDescription"></p></div></header>
+    <section class="shell"><div id="workbench" class="workbench-grid"></div></section>
+    <section class="trust-row shell"><div><strong>Local first</strong><span>Inputs stay inside this browser tab.</span></div><div><strong>No account</strong><span>Complete the task before any signup.</span></div><div><strong>Independent product</strong><span>Original interface, brand, and code.</span></div></section>
+    <footer class="site-footer shell"><span>© 2026 TinyTask Lab</span><a href="#">Browse the experiment</a></footer>
+  </main>
+  <script src="./app.js"></script>
+</body>
+</html>
