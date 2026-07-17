@@ -43,7 +43,7 @@ for (const [index, tool] of tools.entries()) {
   <meta property="og:url" content="${url}">
   <meta property="og:image" content="${origin}/og.png">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="../../styles.css?v=paypal2">
   <script type="application/ld+json">${escapeJson(structuredData)}</script>
 </head>
 <body>
@@ -67,7 +67,7 @@ for (const [index, tool] of tools.entries()) {
     </section>
     <footer class="site-footer shell"><span>© 2026 TinyTask Lab</span><a href="../../#tools">Browse all 10 tools</a></footer>
   </main>
-  <script src="../../app.js"></script>
+  <script src="../../app.js?v=paypal2"></script>
 </body>
 </html>`;
   const directory = new URL(`./tools/${tool.slug}/`, import.meta.url);
