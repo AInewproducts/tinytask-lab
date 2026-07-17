@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://ainewproducts.github.io/tinytask-lab/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://ainewproducts.github.io/tinytask-lab/tools/image-compressor/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ainewproducts.github.io/tinytask-lab/tools/image-resizer/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ainewproducts.github.io/tinytask-lab/tools/webp-converter/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ainewproducts.github.io/tinytask-lab/tools/json-formatter/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ainewproducts.github.io/tinytask-lab/tools/csv-to-json/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ainewproducts.github.io/tinytask-lab/tools/text-cleaner/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ainewproducts.github.io/tinytask-lab/tools/slug-generator/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ainewproducts.github.io/tinytask-lab/tools/utm-builder/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ainewproducts.github.io/tinytask-lab/tools/timestamp-converter/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ainewproducts.github.io/tinytask-lab/tools/contrast-checker/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+</urlset>

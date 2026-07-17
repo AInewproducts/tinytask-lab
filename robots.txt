@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://ainewproducts.github.io/tinytask-lab/sitemap.xml
