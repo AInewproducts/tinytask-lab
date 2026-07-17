@@ -13,7 +13,7 @@ const tools=[
 const $=s=>document.querySelector(s);
 const grid=$("#toolGrid");
 const basePath=location.pathname.includes("/tinytask-lab/")?"/tinytask-lab":"";
-const paypalSandboxClientId="EMWF3mjj0MbsAcM0uuxirsp3GW3txRnKIVPNYarWzwbdkMXZ0sUgtqogJ6LwQqTchAeEuORW9MymshfR";
+const paypalSandboxClientId="sb";
 const freeDailyLimit=5;
 let activeTool=null;
 if(grid)tools.forEach((tool,index)=>{const card=document.createElement("a");card.className="tool-card";card.href=`${basePath}/tools/${tool.slug}/`;card.innerHTML=`<div class="tool-card-top"><span class="tool-index">${String(index+1).padStart(2,"0")}</span><span class="tool-badge accent-${tool.accent}">${tool.badge}</span></div><p>${tool.category}</p><h3>${tool.name}</h3><span class="tool-promise">${tool.promise}</span><div class="tool-card-footer"><small>Opportunity score ${tool.score}</small><strong>Open →</strong></div>`;grid.append(card)});
