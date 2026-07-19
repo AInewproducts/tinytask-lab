@@ -65,6 +65,7 @@ function enhancedImageTool(tool){
     if(file&&tool.slug==="image-resizer"){const previewUrl=URL.createObjectURL(file),preview=new Image();preview.onload=()=>{source={width:preview.naturalWidth,height:preview.naturalHeight};$("#sourceSize").textContent=`Original: ${source.width} × ${source.height}px`;if($("#lockRatio").checked){$("#height").value=Math.max(1,Math.round(Number($("#width").value)/source.width*source.height))}URL.revokeObjectURL(previewUrl)};preview.onerror=()=>URL.revokeObjectURL(previewUrl);preview.src=previewUrl}
   };
   if(q)q.oninput=()=>$("#qualityLabel").textContent=`${q.value}%`;
+  if(webp)$("#outputFormat").onchange=()=>{blob=null;$("#compressionStats").innerHTML="";$("#conversionSummary").textContent="";$("#imageResultTitle").textContent="The result appears here";$("#imageResultMeta").textContent="Run the tool again for the selected output format.";$("#downloadImage").classList.add("hidden")};
   $("#imageFile").onchange=e=>selectFile(e.target.files[0]||null);
   dropZone.ondragover=e=>{e.preventDefault();dropZone.classList.add("is-dragging")};
   dropZone.ondragleave=()=>dropZone.classList.remove("is-dragging");
