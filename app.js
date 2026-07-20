@@ -46,7 +46,9 @@ function textTool(tool){if(tool.slug==="contrast-checker"){contrastTool();return
 function contrastTool(){$("#workbench").innerHTML=`<section class="input-panel"><div class="field-pair"><label class="field-label">Text color<input id="foreground" value="#111111"></label><label class="field-label">Background<input id="background" value="#FFFFFF"></label></div><p>Use 6-digit or 3-digit hex colors.</p><button id="runTool" class="button primary wide">Check contrast</button><div id="inputNotice"></div></section><section id="contrastCard" class="contrast-card"><span>Contrast preview</span><strong id="ratio">—</strong><p id="rating">Run the check</p></section>`;$("#runTool").onclick=()=>{const f=normHex($("#foreground").value),b=normHex($("#background").value);if(!f||!b){$("#inputNotice").innerHTML=notice("Add two valid hex colors first.");return}if(!allowRun()){$("#inputNotice").innerHTML=notice("Your five free runs are used. Upgrade to TinyTask Pro to continue.");return}const r=(Math.max(lum(f),lum(b))+.05)/(Math.min(lum(f),lum(b))+.05);$("#contrastCard").style.color=f;$("#contrastCard").style.backgroundColor=b;$("#ratio").textContent=`${r.toFixed(2)}:1`;$("#rating").textContent=r>=7?"AAA":r>=4.5?"AA":r>=3?"AA Large":"Fail";consumeRun()}}
 function openTool(slug){const tool=tools.find(t=>t.slug===slug);if(!tool)return;activeTool=tool;$("#homePage")?.classList.add("hidden");$("#toolPage")?.classList.remove("hidden");$("#toolHeroBadge").className=`tool-hero-badge accent-${tool.accent}`;$("#toolHeroBadge").textContent=tool.badge;$("#toolEyebrow").textContent=`${tool.category} utility · Score ${tool.score}`;$("#toolTitle").textContent=tool.name;$("#toolDescription").textContent=tool.description;if(tool.slug.startsWith("image-")||tool.slug==="webp-converter")imageTool(tool);else textTool(tool);renderUsage();scrollTo(0,0)}
 function route(){const hashMatch=location.hash.match(/^#tool=(.+)$/);const pathMatch=location.pathname.match(/\/tools\/([^/]+)\/?$/);const slug=pathMatch?.[1]||hashMatch?.[1];if(slug)openTool(slug);else{$("#toolPage")?.classList.add("hidden");$("#homePage")?.classList.remove("hidden")}}
+const originalTextTool=textTool;
 imageTool=enhancedImageTool;
+textTool=enhancedTextTool;
 addEventListener("hashchange",route);route();
 
 // Enhanced image workflow; this later declaration replaces the compact version above.
@@ -86,3 +88,31 @@ function enhancedImageTool(tool){
   };
   $("#downloadImage").onclick=()=>{if(!blob)return;const url=URL.createObjectURL(blob),a=document.createElement("a"),ext=webp?$("#outputFormat").value:file.type==="image/png"?"png":"jpg";a.href=url;a.download=`${file.name.replace(/\.[^.]+$/,'')}-${tool.slug}.${ext}`;a.click();URL.revokeObjectURL(url)}
 }
+
+// JSON Tidy validation workflow; other text utilities keep their established implementation.
+function enhancedTextTool(tool){
+  if(tool.slug!=="json-formatter"){basicTextTool(tool);return}
+  $("#workbench").innerHTML=`<section class="input-panel"><label class="field-label">Paste JSON<textarea id="mainInput" class="input-area" spellcheck="false" placeholder='{"launch":"fast","tools":10}'></textarea></label><p class="privacy-note">Processed only in this tab · 2 MB safety limit · no upload or account</p><label class="field-label">Mode<select id="mode"><option value="pretty">Pretty print</option><option value="minify">Minify</option></select></label><button id="runTool" class="button primary wide">Format JSON</button><div id="inputNotice" aria-live="polite"></div></section>${emptyResult()}`;
+  const input=$("#mainInput");
+  input.oninput=()=>{$("#inputNotice").innerHTML=""};
+  $("#runTool").onclick=()=>{
+    if(!allowRun()){$("#inputNotice").innerHTML=notice("Your five free runs are used. Upgrade to TinyTask Pro to continue.");return}
+    try{
+      const value=input.value;
+      if(!value.trim())throw Error("Paste JSON before running the formatter.");
+      if(new Blob([value]).size>2*1024*1024)throw Error("This JSON is over 2 MB. Use a smaller sample to keep this browser tab responsive.");
+      const parsed=JSON.parse(value),output=$("#mode").value==="minify"?JSON.stringify(parsed):JSON.stringify(parsed,null,2),type=Array.isArray(parsed)?"Array":parsed===null?"Null":typeof parsed==="object"?"Object":"Value",items=Array.isArray(parsed)?parsed.length:parsed&&typeof parsed==="object"?Object.keys(parsed).length:1,bytes=new Blob([output]).size;
+      $("#workbench").children[1].outerHTML=`<div class="text-result-wrap">${resultPanel()}<div class="json-stats" aria-label="JSON result summary"><span><strong>${type}</strong> root</span><span><strong>${items}</strong> top-level ${items===1?"item":"items"}</span><span><strong>${formatTextBytes(bytes)}</strong> output</span></div></div>`;
+      wireResult(output,"json-tidy-result.json");
+      $("#copyResult").onclick=()=>navigator.clipboard.writeText(output).then(()=>{$("#inputNotice").innerHTML=notice("Copied to your clipboard.","good")},()=>{$("#inputNotice").innerHTML=notice("Copy failed. Select the result manually.")});
+      $("#inputNotice").innerHTML="";consumeRun();
+    }catch(error){$("#inputNotice").innerHTML=notice(jsonParseMessage(error,input.value))}
+  }
+}
+
+function basicTextTool(tool){
+  textTool=originalTextTool;
+  try{originalTextTool(tool)}finally{textTool=enhancedTextTool}
+}
+function formatTextBytes(bytes){return bytes<1024?`${bytes} B`:bytes<1024*1024?`${(bytes/1024).toFixed(bytes<10240?1:0)} KB`:`${(bytes/1024/1024).toFixed(1)} MB`}
+function jsonParseMessage(error,input){const raw=error?.message||"Invalid JSON.",match=raw.match(/position\s+(\d+)/i);if(!match)return raw.includes("end of JSON")?"JSON ends before a value or closing bracket was completed.":raw;const offset=Number(match[1]),before=input.slice(0,offset),line=before.split("\n").length,column=offset-before.lastIndexOf("\n"),detail=raw.replace(/^JSON\.parse:\s*/i,"").replace(/\s+at position\s+\d+.*$/i,"");return `Invalid JSON at line ${line}, column ${column}: ${detail}`}
