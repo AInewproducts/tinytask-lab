@@ -65,7 +65,7 @@ for (const [index, tool] of tools.entries()) {
       </article>
       <aside class="related-tools"><p class="eyebrow">More tiny tasks</p><h2>Related browser tools</h2>${related.map((item) => `<a href="../${item.slug}/">${item.name}<br><small>${item.description}</small></a>`).join("")}</aside>
     </section>
-    <footer class="site-footer shell"><span>© 2026 TinyTask Lab</span><span class="footer-links"><a href="../../terms/">Terms</a><a href="../../privacy/">Privacy</a><a href="../../refunds/">Refunds</a><a href="../../contact/">Contact</a></span></footer>
+    <footer class="site-footer shell"><span>© 2026 TinyTask Lab</span><span class="footer-links"><a href="../../terms/index.html">Terms</a><a href="../../privacy/index.html">Privacy</a><a href="../../refunds/index.html">Refunds</a><a href="../../contact/index.html">Contact</a></span></footer>
   </main>
   <script src="../../app.js?v=paypal2"></script>
 </body>
@@ -78,7 +78,7 @@ for (const [index, tool] of tools.entries()) {
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>${origin}/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
-${["terms", "privacy", "refunds", "contact"].map((page) => `  <url><loc>${origin}/${page}/</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>`).join("\n")}
+${["terms", "privacy", "refunds", "contact"].map((page) => `  <url><loc>${origin}/${page}/index.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>`).join("\n")}
 ${tools.map((tool) => `  <url><loc>${origin}/tools/${tool.slug}/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>`).join("\n")}
 </urlset>
 `;
