@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Refund administration | TinyTask Lab</title>
+  <link rel="stylesheet" href="../styles.css?v=legal1">
+</head>
+<body>
+  <nav class="site-nav shell"><a class="brand" href="../"><span class="brand-mark">T</span>TinyTask Lab</a><a class="back-link" href="../">← Back to tools</a></nav>
+  <main class="legal-page shell">
+    <p class="eyebrow">Owner-only operation</p>
+    <h1>Record a PayPal refund</h1>
+    <p>Use this only <strong>after</strong> the refund shows as completed in the PayPal Business dashboard. This page cannot send money or issue a PayPal refund. It records the completed refund and revokes Pro access for that purchase.</p>
+    <form id="refund-form">
+      <label>PayPal order ID or transaction ID<input name="paymentId" autocomplete="off" autocapitalize="characters" pattern="[A-Z0-9]{8,32}" required></label>
+      <label>PayPal refund or transaction reference<input name="refundReference" autocomplete="off" autocapitalize="characters" pattern="[A-Z0-9-]{6,64}" required></label>
+      <label>Refund admin token<input name="adminToken" type="password" autocomplete="off" required></label>
+      <label><input name="paypalRefundCompleted" type="checkbox" required> I have checked that the refund is completed in PayPal.</label>
+      <button type="submit">Record refund and revoke Pro access</button>
+      <p id="result" role="status" aria-live="polite"></p>
+    </form>
+  </main>
+  <script>
+    const form = document.querySelector('#refund-form');
+    const result = document.querySelector('#result');
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      result.textContent = 'Recording…';
+      const data = new FormData(form);
+      try {
+        const response = await fetch('https://api.tinytasklab.com/api/paypal/refund-revocation', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${data.get('adminToken')}` },
+          body: JSON.stringify({
+            paymentId: String(data.get('paymentId')).trim().toUpperCase(),
+            refundReference: String(data.get('refundReference')).trim().toUpperCase(),
+            paypalRefundCompleted: data.get('paypalRefundCompleted') === 'on'
+          })
+        });
+        const body = await response.json();
+        result.textContent = response.ok
+          ? `Recorded. Pro access is revoked for order ${body.orderId}.`
+          : body.error || 'Could not record the refund.';
+      } catch {
+        result.textContent = 'Could not reach the refund service. Try again later.';
+      } finally {
+        form.elements.adminToken.value = '';
+      }
+    });
+  </script>
+</body>
+</html>
