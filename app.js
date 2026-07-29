@@ -1,14 +1,14 @@
 const tools=[
- {slug:"image-compressor",name:"Image Squeeze",short:"Compress image",category:"Image",description:"Shrink JPG and PNG files locally without sending them to a server.",promise:"Smaller images in seconds",badge:"IMG",accent:"blue",score:89},
- {slug:"image-resizer",name:"Quick Resize",short:"Resize image",category:"Image",description:"Resize an image to exact pixel dimensions while keeping control of quality.",promise:"Exact dimensions, no install",badge:"PX",accent:"lime",score:86},
+ {slug:"image-compressor",name:"Image Squeeze",short:"Compress images",category:"Image",description:"Shrink JPG and PNG files locally without sending them to a server.",promise:"Smaller images in seconds",badge:"IMG",accent:"blue",score:89},
+ {slug:"image-resizer",name:"Quick Resize",short:"Resize images",category:"Image",description:"Resize an image to exact pixel dimensions while keeping control of quality.",promise:"Exact dimensions, no install",badge:"PX",accent:"lime",score:86},
  {slug:"webp-converter",name:"WebP Switch",short:"Convert to WebP",category:"Image",description:"Turn JPG or PNG files into lightweight WebP images in your browser.",promise:"Modern images for faster sites",badge:"W",accent:"peach",score:84},
  {slug:"json-formatter",name:"JSON Tidy",short:"Format JSON",category:"Developer",description:"Validate, format, and minify JSON with precise error feedback.",promise:"Readable JSON instantly",badge:"{}",accent:"violet",score:82},
- {slug:"csv-to-json",name:"CSV Bridge",short:"Convert to JSON",category:"Data",description:"Convert spreadsheet-style CSV data into clean JSON without uploading it.",promise:"Move tabular data into code",badge:"CSV",accent:"blue",score:80},
+ {slug:"csv-to-json",name:"CSV Bridge",short:"CSV to JSON",category:"Data",description:"Convert spreadsheet-style CSV data into clean JSON without uploading it.",promise:"Move tabular data into code",badge:"CSV",accent:"blue",score:80},
  {slug:"text-cleaner",name:"Text Polish",short:"Clean text",category:"Writing",description:"Fix spacing, line breaks, and casing for copied text in one pass.",promise:"Clean copy, fewer edits",badge:"Aa",accent:"lime",score:78},
- {slug:"slug-generator",name:"Slug Spark",short:"Create slug",category:"Marketing",description:"Turn titles into clean, search-friendly URL slugs.",promise:"Publish-ready URLs",badge:"/-",accent:"peach",score:76},
- {slug:"utm-builder",name:"UTM Craft",short:"Build campaign URL",category:"Marketing",description:"Create consistent campaign URLs without broken parameters.",promise:"Track every campaign cleanly",badge:"↗",accent:"violet",score:75},
- {slug:"timestamp-converter",name:"Time Shift",short:"Convert time",category:"Developer",description:"Convert Unix timestamps and local dates in both directions.",promise:"Human time and machine time",badge:"00",accent:"blue",score:73},
- {slug:"contrast-checker",name:"Contrast Check",short:"Check contrast",category:"Developer",description:"Check WCAG contrast ratios before shipping a color combination.",promise:"Accessible colors at a glance",badge:"◐",accent:"lime",score:71}
+ {slug:"slug-generator",name:"Slug Spark",short:"Create URL slugs",category:"Marketing",description:"Turn titles into clean, search-friendly URL slugs.",promise:"Publish-ready URLs",badge:"/-",accent:"peach",score:76},
+ {slug:"utm-builder",name:"UTM Craft",short:"Build UTM links",category:"Marketing",description:"Create consistent campaign URLs without broken parameters.",promise:"Track every campaign cleanly",badge:"↗",accent:"violet",score:75},
+ {slug:"timestamp-converter",name:"Time Shift",short:"Convert timestamps",category:"Developer",description:"Convert Unix timestamps and local dates in both directions.",promise:"Human time and machine time",badge:"00",accent:"blue",score:73},
+ {slug:"contrast-checker",name:"Contrast Check",short:"Check color contrast",category:"Developer",description:"Check WCAG contrast ratios before shipping a color combination.",promise:"Accessible colors at a glance",badge:"◐",accent:"lime",score:71}
 ];
 const $=s=>document.querySelector(s);
 const grid=$("#toolGrid");
