@@ -44,7 +44,6 @@ for (const [index, tool] of tools.entries()) {
   <meta property="og:image" content="${origin}/og.png">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="../../styles.css?v=paypal2">
-  <script src="../../analytics.js?v=ga1" defer></script>
   <script type="application/ld+json">${escapeJson(structuredData)}</script>
 </head>
 <body>
