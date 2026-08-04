@@ -16,9 +16,61 @@ const tools = [
 
 const escapeJson = (value) => JSON.stringify(value).replace(/</g, "\\u003c");
 
+function seoDetails(tool) {
+  if (tool.slug === "contrast-checker") {
+    return {
+      title: "Free WCAG Contrast Checker (AA & AAA) | TinyTask Lab",
+      ogTitle: "Free WCAG Contrast Checker (AA & AAA) | TinyTask Lab",
+      description: "Check foreground and background color contrast against WCAG AA and AAA requirements. Free, private, and runs locally in your browser.",
+      heading: tool.name,
+      content: `<h2>Free WCAG contrast checker for accessible color pairs</h2>
+        <p>Check whether text and background colors have enough contrast before you publish a page, interface, or design handoff. This WCAG contrast checker runs locally in your browser, so no color values or design files are uploaded.</p>
+        <h3>Check WCAG AA and AAA contrast</h3>
+        <p>For normal-size text, WCAG AA requires a contrast ratio of at least 4.5:1 and AAA requires 7:1. For large text, the thresholds are 3:1 for AA and 4.5:1 for AAA. Use the result as a quick accessibility check, then review the full design in its real context.</p>
+        <h3>How to use this contrast checker</h3>
+        <ol><li>Enter or select a foreground text color and a background color.</li><li>Review the contrast ratio and the AA or AAA result.</li><li>Adjust either color until the pair meets the level you need.</li></ol>
+        <h3>Does this work for WCAG 2.1 and mobile?</h3>
+        <p>Yes. Contrast-ratio requirements apply across modern web and mobile interfaces. The checker works in current phone, tablet, and desktop browsers.</p>
+        <h3>Is this color contrast checker private?</h3>
+        <p>Yes. It processes color values in the current browser tab. No account is required and nothing is uploaded to TinyTask Lab.</p>`,
+      faq: [
+        {
+          question: "What contrast ratio passes WCAG AA?",
+          answer: "Normal-size text needs at least 4.5:1 for WCAG AA. Large text needs at least 3:1.",
+        },
+        {
+          question: "What contrast ratio passes WCAG AAA?",
+          answer: "Normal-size text needs at least 7:1 for WCAG AAA. Large text needs at least 4.5:1.",
+        },
+        {
+          question: "Are my colors uploaded?",
+          answer: "No. The checker runs in your current browser tab and does not require an account.",
+        },
+      ],
+    };
+  }
+
+  return {
+    title: `${tool.name} — Free Online ${tool.category} Tool | TinyTask Lab`,
+    ogTitle: `${tool.name} — TinyTask Lab`,
+    description: tool.description,
+    heading: tool.name,
+    content: `<h2>Use ${tool.name} online for free</h2>
+        <p>${tool.description} Use it when you need ${tool.promise}. The tool runs directly in your browser, so you can finish a small task without installing another app or opening a new account.</p>
+        <h3>How to use ${tool.name}</h3>
+        <ol><li>Add the file or text you want to process.</li><li>Choose the available settings for your result.</li><li>Run the tool, then copy or download the output.</li></ol>
+        <h3>Is my data uploaded?</h3>
+        <p>No. Processing happens inside your current browser tab. TinyTask Lab does not require an account for this tool.</p>
+        <h3>Does ${tool.name} work on mobile?</h3>
+        <p>Yes. The interface adapts to modern phone, tablet, and desktop browsers.</p>`,
+    faq: [],
+  };
+}
+
 for (const [index, tool] of tools.entries()) {
   const url = `${origin}/tools/${tool.slug}/`;
   const related = [tools[(index + 1) % tools.length], tools[(index + 2) % tools.length], tools[(index + 3) % tools.length]];
+  const seo = seoDetails(tool);
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
@@ -26,42 +78,47 @@ for (const [index, tool] of tools.entries()) {
     url,
     applicationCategory: `${tool.category}Application`,
     operatingSystem: "Any",
-    description: tool.description,
+    description: seo.description,
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   };
+  const schemaGraph = [structuredData];
+  if (seo.faq.length > 0) {
+    schemaGraph.push({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: seo.faq.map((item) => ({
+        "@type": "Question",
+        name: item.question,
+        acceptedAnswer: { "@type": "Answer", text: item.answer },
+      })),
+    });
+  }
   const html = `<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>${tool.name} — Free Online ${tool.category} Tool | TinyTask Lab</title>
-  <meta name="description" content="${tool.description}">
+  <title>${seo.title}</title>
+  <meta name="description" content="${seo.description}">
   <link rel="canonical" href="${url}">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="${tool.name} — TinyTask Lab">
-  <meta property="og:description" content="${tool.description}">
+  <meta property="og:title" content="${seo.ogTitle}">
+  <meta property="og:description" content="${seo.description}">
   <meta property="og:url" content="${url}">
   <meta property="og:image" content="${origin}/og.png">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="../../styles.css?v=paypal2">
-  <script type="application/ld+json">${escapeJson(structuredData)}</script>
+  <script type="application/ld+json">${escapeJson(schemaGraph.length === 1 ? structuredData : { "@context": "https://schema.org", "@graph": schemaGraph })}</script>
 </head>
 <body>
   <main id="toolPage">
     <nav class="site-nav shell"><a class="brand" href="../../"><span class="brand-mark">T</span>TinyTask Lab</a><a class="back-link" href="../../#tools">← All tools</a></nav>
-    <header class="tool-header shell"><div id="toolHeroBadge" class="tool-hero-badge accent-${tool.accent}">${tool.badge}</div><div><p class="eyebrow" id="toolEyebrow">${tool.category} utility · Score ${tool.score}</p><h1 id="toolTitle">${tool.name}</h1><p id="toolDescription">${tool.description}</p></div></header>
+    <header class="tool-header shell"><div id="toolHeroBadge" class="tool-hero-badge accent-${tool.accent}">${tool.badge}</div><div><p class="eyebrow" id="toolEyebrow">${tool.category} utility · Score ${tool.score}</p><h1 id="toolTitle">${seo.heading}</h1><p id="toolDescription">${seo.description}</p></div></header>
     <section class="shell"><div id="workbench" class="workbench-grid"></div></section>
     <section class="trust-row shell"><div><strong>Local first</strong><span>Inputs stay inside this browser tab.</span></div><div><strong>No account</strong><span>Complete the task before any signup.</span></div><div><strong>Free to use</strong><span>Start immediately with no installation.</span></div></section>
     <section class="seo-content shell">
       <article>
-        <h2>Use ${tool.name} online for free</h2>
-        <p>${tool.description} Use it when you need ${tool.promise}. The tool runs directly in your browser, so you can finish a small task without installing another app or opening a new account.</p>
-        <h3>How to use ${tool.name}</h3>
-        <ol><li>Add the file or text you want to process.</li><li>Choose the available settings for your result.</li><li>Run the tool, then copy or download the output.</li></ol>
-        <h3>Is my data uploaded?</h3>
-        <p>No. Processing happens inside your current browser tab. TinyTask Lab does not require an account for this tool.</p>
-        <h3>Does ${tool.name} work on mobile?</h3>
-        <p>Yes. The interface adapts to modern phone, tablet, and desktop browsers.</p>
+        ${seo.content}
       </article>
       <aside class="related-tools"><p class="eyebrow">More tiny tasks</p><h2>Related browser tools</h2>${related.map((item) => `<a href="../${item.slug}/">${item.name}<br><small>${item.description}</small></a>`).join("")}</aside>
     </section>
