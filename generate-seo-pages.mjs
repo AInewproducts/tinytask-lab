@@ -124,7 +124,7 @@ for (const [index, tool] of tools.entries()) {
     </section>
     <footer class="site-footer shell"><span>© 2026 TinyTask Lab</span><span class="footer-links"><a href="../../terms/index.html">Terms</a><a href="../../privacy/index.html">Privacy</a><a href="../../refunds/index.html">Refunds</a><a href="../../contact/index.html">Contact</a></span></footer>
   </main>
-  <script src="../../app.js?v=image-safety-1"></script>
+  <script src="../../app.js?v=live-checkout-1"></script>
 </body>
 </html>`;
   const directory = new URL(`./tools/${tool.slug}/`, import.meta.url);
