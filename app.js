@@ -97,6 +97,10 @@ function enhancedImageTool(tool){
 
 // Validation workflows for the leading text and data utilities; other utilities keep their established implementation.
 function enhancedTextTool(tool){
+  if(tool.slug==="utm-builder"){
+    $("#workbench").innerHTML=`<section class="input-panel"><label class="field-label">Destination URL<textarea id="mainInput" class="input-area" placeholder="https://example.com/launch"></textarea></label><div class="field-pair"><label class="field-label">Source<input id="secondary" value="newsletter"></label><label class="field-label">Medium<input id="third" value="email"></label></div><label class="field-label">Campaign<input id="mode" value="launch"></label><button id="runTool" class="button primary wide">Build UTM links</button><div id="inputNotice" aria-live="polite"></div></section>${emptyResult()}`;
+    $("#runTool").onclick=()=>{try{const url=new URL($("#mainInput").value);if(!/^https?:$/.test(url.protocol))throw Error("Use an http or https destination URL.");if(!allowRun()){$("#inputNotice").innerHTML=notice("Your five free runs are used. Upgrade to TinyTask Pro to continue.");return}url.searchParams.set("utm_source",$("#secondary").value||"newsletter");url.searchParams.set("utm_medium",$("#third").value||"email");url.searchParams.set("utm_campaign",$("#mode").value||"launch");const output=url.toString();$("#workbench").children[1].outerHTML=resultPanel();wireResult(output,"utm-builder-result.txt");consumeRun()}catch(error){$("#inputNotice").innerHTML=notice(error.message)}};return
+  }
   if(tool.slug==="csv-to-json"){
     $("#workbench").innerHTML=`<section class="input-panel"><label class="field-label">Paste CSV<textarea id="mainInput" class="input-area" spellcheck="false" placeholder="name,score\nImage Squeeze,89"></textarea></label><p class="privacy-note">Auto-detects comma, tab, or semicolon · 2 MB safety limit · no upload or account</p><button id="runTool" class="button primary wide">Convert to JSON</button><div id="inputNotice" aria-live="polite"></div></section>${emptyResult()}`;
     const input=$("#mainInput");input.oninput=()=>{$("#inputNotice").innerHTML=""};
