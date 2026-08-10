@@ -9,5 +9,6 @@ assert.match(source, /Sandbox checkout — no real charge will be made\./, "chec
 assert.doesNotMatch(source, /https:\/\/www\.paypal\.com\/sdk\/js/, "production PayPal SDK URL is forbidden");
 assert.doesNotMatch(source, /environment==="live"|\["sandbox","live"\]|Live checkout/, "live checkout branches are forbidden");
 assert.match(source, /if\(!\/\^https\?:\$\/\.test\(url\.protocol\)\)throw Error\("Use an http or https destination URL\."\)/, "UTM builder must reject non-web URL schemes");
+assert.match(source, /\(sourceWidth\*sourceHeight\+outputWidth\*outputHeight\)\*4>160\*1024\*1024/, "image tools must cap the combined decoded RGBA working set");
 
-console.log("Public safety verified: checkout is sandbox-only and UTM URLs are HTTP(S)-only.");
+console.log("Public safety verified: checkout is sandbox-only, UTM URLs are HTTP(S)-only, and image memory is capped.");
