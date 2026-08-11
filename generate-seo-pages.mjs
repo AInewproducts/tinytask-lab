@@ -191,11 +191,135 @@ const guideDirectory = new URL("./guides/wcag-contrast-ratio/", import.meta.url)
 await mkdir(guideDirectory, { recursive: true });
 await writeFile(new URL("index.html", guideDirectory), guideHtml);
 
+const generatedGuidePages = [
+  ["wcag-aa-vs-aaa", "WCAG AA vs AAA: Which Contrast Level to Use", "contrast-checker", "Compare WCAG AA and AAA contrast requirements before choosing a practical target for a product."],
+  ["4-5-1-contrast-ratio", "4.5:1 Contrast Ratio Explained", "contrast-checker", "Understand when 4.5:1 applies to normal text and how to check a foreground and background pair."],
+  ["7-1-contrast-ratio", "7:1 Contrast Ratio Explained", "contrast-checker", "Learn when a 7:1 ratio is useful and how it relates to WCAG AAA for normal-size text."],
+  ["large-text-contrast-rules", "Large Text Contrast Rules in WCAG", "contrast-checker", "Use the correct contrast threshold when a heading or label may qualify as large text."],
+  ["button-contrast-checklist", "Button Color Contrast Checklist", "contrast-checker", "Check button labels, borders, focus states, and disabled states before shipping an interface."],
+  ["link-color-contrast", "How to Check Link Color Contrast", "contrast-checker", "Review link text against its background and distinguish links without relying on color alone."],
+  ["placeholder-text-contrast", "Placeholder Text Contrast Guide", "contrast-checker", "Avoid low-contrast placeholder text that makes form fields difficult to read."],
+  ["error-message-color-contrast", "Error Message Color Contrast", "contrast-checker", "Check error text, icons, and surfaces so validation feedback remains readable."],
+  ["dark-mode-color-contrast", "Dark Mode Color Contrast Checklist", "contrast-checker", "Test dark-theme text and component states instead of assuming a light-theme pair will translate."],
+  ["accessible-color-pairs", "How to Build Accessible Color Pairs", "contrast-checker", "Create repeatable foreground and background color pairs for a design system."],
+  ["color-contrast-for-designers", "Color Contrast for Designers", "contrast-checker", "Add a lightweight contrast review to a design handoff without changing the design workflow."],
+  ["color-contrast-for-developers", "Color Contrast for Developers", "contrast-checker", "Turn visual contrast decisions into practical CSS and component checks before release."],
+  ["color-contrast-in-figma", "How to Review Color Contrast in Figma", "contrast-checker", "Use a simple color-pair review alongside Figma designs before engineering handoff."],
+  ["color-contrast-in-css", "How to Check Color Contrast in CSS", "contrast-checker", "Review the colors actually used in CSS, including state and surface changes."],
+  ["color-contrast-for-mobile-apps", "Mobile App Color Contrast Guide", "contrast-checker", "Apply contrast checks to mobile labels, controls, and small-screen conditions."],
+  ["color-contrast-with-gradients", "Color Contrast Over Gradients", "contrast-checker", "Check the weakest part of a gradient when text sits over a changing background."],
+  ["color-contrast-over-images", "Color Contrast Over Images", "contrast-checker", "Keep text readable over photos with overlays, placement, and contrast checks."],
+  ["color-contrast-accessibility-checklist", "Color Contrast Accessibility Checklist", "contrast-checker", "Use a practical pre-release checklist for text, controls, states, and imagery."],
+  ["wcag-contrast-testing-workflow", "A Practical WCAG Contrast Testing Workflow", "contrast-checker", "Build a repeatable contrast review from early design choices through final QA."],
+  ["compress-jpg-in-browser", "Compress JPG Images in Your Browser", "image-compressor", "Reduce JPG file size locally before publishing an image to a website or email."],
+  ["compress-png-in-browser", "Compress PNG Images in Your Browser", "image-compressor", "Reduce PNG file size in a browser while checking whether the new file is worthwhile."],
+  ["reduce-image-size-for-web", "How to Reduce Image Size for the Web", "image-compressor", "Prepare web images with a smaller file size before they slow down a page."],
+  ["image-compression-for-websites", "Image Compression for Websites", "image-compressor", "Use a simple image-compression workflow for pages that need to load efficiently."],
+  ["image-compression-for-email", "Image Compression for Email", "image-compressor", "Reduce image weight before adding visual assets to an email campaign."],
+  ["compress-screenshots", "How to Compress Screenshots", "image-compressor", "Shrink screenshots for bug reports, documentation, support, and product updates."],
+  ["image-file-size-guide", "Image File Size Guide for Websites", "image-compressor", "Use practical file-size checks before publishing images on a fast-loading page."],
+  ["jpg-vs-png-file-size", "JPG vs PNG File Size: What to Check", "image-compressor", "Choose an image format based on the visual content and the size trade-off."],
+  ["when-image-compression-makes-file-larger", "Why Image Compression Can Make a File Larger", "image-compressor", "Understand why some images should keep their original file instead of a new export."],
+  ["private-image-compression", "Private Image Compression Without Uploading Files", "image-compressor", "Use local browser processing when you do not want to send an image to a service."],
+  ["local-image-compression", "Local Image Compression: A Browser-First Workflow", "image-compressor", "Keep a small image-compression task in the browser instead of adding an upload step."],
+  ["image-compression-checklist", "Image Compression Checklist", "image-compressor", "Check source format, output size, quality, and the final page before publishing."],
+  ["reduce-page-weight-images", "Reduce Page Weight With Smaller Images", "image-compressor", "Identify image assets that add unnecessary page weight before a launch."],
+  ["compress-images-for-portfolio", "Compress Images for a Portfolio Website", "image-compressor", "Prepare portfolio imagery that looks clear without making a project page heavy."],
+  ["compress-images-for-blog", "Compress Images for Blog Posts", "image-compressor", "Prepare article images that balance readability and load time."],
+  ["preserve-image-quality", "How to Preserve Image Quality When Compressing", "image-compressor", "Review image quality and file size together before replacing a source asset."],
+  ["browser-image-compression-limits", "Browser Image Compression Limits", "image-compressor", "Use practical image-size limits so a browser tab can process a file responsively."],
+  ["resize-image-online-private", "Resize an Image Online Without Uploading It", "image-resizer", "Resize an image to exact dimensions in a browser-first workflow."],
+  ["image-resize-dimensions", "How to Choose Image Resize Dimensions", "image-resizer", "Choose target pixel dimensions before resizing an image for a specific layout."],
+  ["resize-image-for-social-media", "Resize Images for Social Media", "image-resizer", "Prepare a source image for a social post while keeping its aspect ratio in mind."],
+  ["resize-image-for-web", "Resize Images for the Web", "image-resizer", "Create appropriately sized image assets instead of serving oversized originals."],
+  ["image-resize-aspect-ratio", "Image Resize and Aspect Ratio Guide", "image-resizer", "Resize an image without accidentally distorting its proportions."],
+  ["webp-vs-jpg", "WebP vs JPG for Website Images", "webp-converter", "Compare common web image formats before choosing an output for a page."],
+  ["convert-jpg-to-webp", "Convert JPG to WebP in Your Browser", "webp-converter", "Turn a JPG into WebP locally when a modern web format fits the asset."],
+  ["convert-png-to-webp", "Convert PNG to WebP in Your Browser", "webp-converter", "Convert a PNG to WebP while reviewing transparency and output needs."],
+  ["webp-conversion-guide", "WebP Conversion Guide for Website Images", "webp-converter", "Use a practical browser-first workflow for testing a WebP conversion."],
+  ["json-formatter-guide", "JSON Formatter Guide", "json-formatter", "Format and validate JSON before sharing it with a teammate or using it in code."],
+  ["format-json-online", "Format JSON Online Without Uploading It", "json-formatter", "Use a local browser formatter for structured JSON text."],
+  ["json-minify-guide", "How to Minify JSON", "json-formatter", "Create compact JSON output when whitespace is no longer needed."],
+  ["json-parse-error-guide", "How to Read a JSON Parse Error", "json-formatter", "Use error location feedback to repair malformed JSON more quickly."],
+  ["json-pretty-print-guide", "JSON Pretty Print Guide", "json-formatter", "Make nested JSON easier to read before reviewing its structure."],
+  ["validate-json-in-browser", "Validate JSON in Your Browser", "json-formatter", "Check JSON syntax locally before adding it to a configuration or request."],
+  ["json-formatting-workflow", "A Simple JSON Formatting Workflow", "json-formatter", "Use formatting, validation, and minification as separate steps in a JSON review."],
+  ["json-for-developers", "JSON Cleanup for Developers", "json-formatter", "Prepare JSON samples for debugging, code review, and documentation."],
+  ["json-for-marketers", "How Marketers Can Read JSON Campaign Data", "json-formatter", "Make exported JSON data easier to inspect before using it in a workflow."],
+  ["csv-to-json-guide", "CSV to JSON Conversion Guide", "csv-to-json", "Convert tabular CSV data into JSON when a code or API workflow needs structured records."],
+  ["convert-csv-to-json-online", "Convert CSV to JSON Online Without Uploading", "csv-to-json", "Transform a CSV in a browser-first workflow without sending its contents to a server."],
+  ["csv-quoted-fields", "CSV Quoted Fields Explained", "csv-to-json", "Handle commas inside quoted CSV values when converting a table to JSON."],
+  ["csv-delimiter-guide", "CSV Delimiter Guide: Comma, Tab, or Semicolon", "csv-to-json", "Check which delimiter a CSV uses before converting it to structured JSON."],
+  ["csv-to-json-errors", "Common CSV to JSON Errors", "csv-to-json", "Fix uneven rows, missing headers, and delimiter issues before converting CSV data."],
+  ["timestamp-converter-guide", "Timestamp Converter Guide", "timestamp-converter", "Convert between Unix timestamps and readable dates without guessing the unit."],
+  ["unix-timestamp-seconds-vs-milliseconds", "Unix Timestamp: Seconds vs Milliseconds", "timestamp-converter", "Tell apart 10-digit seconds and 13-digit milliseconds before converting a time."],
+  ["convert-unix-timestamp-to-date", "Convert Unix Timestamp to Date", "timestamp-converter", "Turn a machine timestamp into a readable date for debugging or reporting."],
+  ["convert-date-to-unix-timestamp", "Convert a Date to Unix Timestamp", "timestamp-converter", "Create a Unix timestamp from a recognizable date and time."],
+  ["timestamp-timezone-guide", "Timestamp and Time Zone Guide", "timestamp-converter", "Avoid confusion between machine timestamps and locally displayed dates."],
+  ["utm-builder-guide", "UTM Builder Guide", "utm-builder", "Create campaign URLs with consistent source, medium, and campaign parameters."],
+  ["utm-source-medium-campaign", "UTM Source, Medium, and Campaign Explained", "utm-builder", "Use the core UTM parameters consistently when building a campaign link."],
+  ["utm-link-examples", "UTM Link Examples", "utm-builder", "Review clear examples of campaign URLs before sharing one publicly."],
+  ["utm-parameters-checklist", "UTM Parameters Checklist", "utm-builder", "Check a campaign URL for a destination and consistent tracking parameters."],
+  ["utm-builder-for-email", "How to Build UTM Links for Email", "utm-builder", "Prepare campaign URLs for an email without manually assembling query parameters."],
+  ["slug-generator-guide", "Slug Generator Guide", "slug-generator", "Turn a title into a compact, readable URL slug for publishing."],
+  ["how-to-write-url-slugs", "How to Write Better URL Slugs", "slug-generator", "Use short, readable slugs that describe a page without unnecessary characters."],
+  ["slugify-title-guide", "How to Slugify a Title", "slug-generator", "Convert a headline into a URL-friendly string before creating a page."],
+  ["seo-url-slug-checklist", "SEO URL Slug Checklist", "slug-generator", "Review a URL slug for readability, relevance, and a stable publishing structure."],
+  ["text-cleaner-guide", "Text Cleaner Guide", "text-cleaner", "Clean copied text by fixing spacing, line breaks, and casing in a browser tab."],
+  ["clean-copied-text", "How to Clean Copied Text", "text-cleaner", "Prepare copied text before pasting it into a document, CMS, or email."],
+  ["remove-extra-spaces", "How to Remove Extra Spaces From Text", "text-cleaner", "Fix repeated spaces and inconsistent line breaks in a block of text."],
+  ["title-case-text-guide", "Title Case Text Guide", "text-cleaner", "Apply a consistent title case when preparing a heading or label."],
+  ["clean-text-for-cms", "Clean Text Before Pasting Into a CMS", "text-cleaner", "Remove messy copied formatting before publishing text in a content system."],
+  ["text-cleanup-checklist", "Text Cleanup Checklist", "text-cleaner", "Review spacing, blank lines, and casing before sharing a text draft."],
+  ["free-browser-image-tools", "Free Browser Image Tools", "image-compressor", "Find small browser-first workflows for compressing, resizing, and converting image files."],
+  ["private-browser-tools", "Private Browser Tools for Small Tasks", "text-cleaner", "Use browser-first utilities when a small task does not need an account or upload."],
+  ["developer-utility-tools", "Free Developer Utility Tools", "json-formatter", "Find practical browser tools for JSON, CSV, timestamps, and accessibility checks."],
+  ["marketing-utility-tools", "Free Marketing Utility Tools", "utm-builder", "Find small browser tools for campaign URLs, URL slugs, and text cleanup."],
+  ["browser-productivity-tools", "Browser Productivity Tools for Everyday Tasks", "text-cleaner", "Use focused utilities to finish small file, text, data, and link tasks quickly."],
+].map(([slug, title, tool, description]) => ({ slug, title, tool, description }));
+
+function generatedGuideHtml(page, index) {
+  const tool = tools.find((item) => item.slug === page.tool);
+  const url = `${origin}/guides/${page.slug}/`;
+  const related = generatedGuidePages.filter((item) => item.tool === page.tool && item.slug !== page.slug).slice(0, 2);
+  const alternate = generatedGuidePages[(index + 17) % generatedGuidePages.length];
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: page.title,
+    description: page.description,
+    mainEntityOfPage: url,
+    author: { "@type": "Organization", name: "TinyTask Lab" },
+    publisher: { "@type": "Organization", name: "TinyTask Lab" },
+  };
+  return `<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${page.title} | TinyTask Lab</title><meta name="description" content="${page.description}"><link rel="canonical" href="${url}">
+<meta property="og:type" content="article"><meta property="og:title" content="${page.title}"><meta property="og:description" content="${page.description}"><meta property="og:url" content="${url}"><meta property="og:image" content="${origin}/og.png"><meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../../styles.css?v=paypal2"><script type="application/ld+json">${escapeJson(schema)}</script></head>
+<body><main id="toolPage"><nav class="site-nav shell"><a class="brand" href="../../"><span class="brand-mark">T</span>TinyTask Lab</a><a class="back-link" href="../../tools/${tool.slug}/">← ${tool.name}</a></nav>
+<header class="tool-header shell"><div class="tool-hero-badge accent-${tool.accent}">${tool.badge}</div><div><p class="eyebrow">${tool.category} guide</p><h1>${page.title}</h1><p>${page.description}</p></div></header>
+<section class="seo-content shell"><article><h2>What to check</h2><p>${page.description} Start with the real input, state, or output you are working with rather than a generic example. A focused check prevents small details from becoming rework later.</p>
+<h2>A practical workflow</h2><ol><li>Define the specific result you need before opening a tool.</li><li>Use a small, representative sample and review the output in context.</li><li>Keep the result only when it matches the requirement for the page, product, or campaign.</li></ol>
+<h2>Use ${tool.name} locally</h2><p>TinyTask Lab provides a browser-first ${tool.name} workflow for this task. It does not require an account, and the tool input stays in the current browser tab.</p>
+<p><a class="button primary" href="../../tools/${tool.slug}/">Open ${tool.name} →</a></p>
+<h2>Next step</h2><p>After completing this check, review the related guide below for another practical part of the same workflow.</p></article>
+<aside class="related-tools"><p class="eyebrow">Related guides</p><h2>Continue the workflow</h2>${related.map((item) => `<a href="../${item.slug}/">${item.title}<br><small>${item.description}</small></a>`).join("")}<a href="../${alternate.slug}/">${alternate.title}<br><small>${alternate.description}</small></a></aside></section>
+<footer class="site-footer shell"><span>© 2026 TinyTask Lab</span><span class="footer-links"><a href="../../terms/index.html">Terms</a><a href="../../privacy/index.html">Privacy</a><a href="../../refunds/index.html">Refunds</a><a href="../../contact/index.html">Contact</a></span></footer></main></body></html>`;
+}
+
+for (const [index, page] of generatedGuidePages.entries()) {
+  const directory = new URL(`./guides/${page.slug}/`, import.meta.url);
+  await mkdir(directory, { recursive: true });
+  await writeFile(new URL("index.html", directory), generatedGuideHtml(page, index));
+}
+
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>${origin}/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
 ${["terms", "privacy", "refunds", "contact"].map((page) => `  <url><loc>${origin}/${page}/index.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>`).join("\n")}
   <url><loc>${guideUrl}</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+${generatedGuidePages.map((page) => `  <url><loc>${origin}/guides/${page.slug}/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>`).join("\n")}
 ${tools.map((tool) => `  <url><loc>${origin}/tools/${tool.slug}/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>`).join("\n")}
 </urlset>
 `;
