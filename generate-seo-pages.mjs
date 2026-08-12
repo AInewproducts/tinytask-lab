@@ -140,8 +140,8 @@ const guideSchema = {
   headline: "WCAG contrast ratio: a practical AA and AAA guide",
   description: "Understand WCAG color-contrast ratios, AA and AAA thresholds, and how to test a text color against its background.",
   mainEntityOfPage: guideUrl,
-  author: { "@type": "Organization", name: "TinyTask Lab" },
-  publisher: { "@type": "Organization", name: "TinyTask Lab" },
+  author: { "@id": `${origin}/#organization` },
+  publisher: { "@id": `${origin}/#organization` },
 };
 const guideHtml = `<!doctype html>
 <html lang="en">
@@ -289,8 +289,8 @@ function generatedGuideHtml(page, index) {
     headline: page.title,
     description: page.description,
     mainEntityOfPage: url,
-    author: { "@type": "Organization", name: "TinyTask Lab" },
-    publisher: { "@type": "Organization", name: "TinyTask Lab" },
+    author: { "@id": `${origin}/#organization` },
+    publisher: { "@id": `${origin}/#organization` },
   };
   return `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -314,10 +314,26 @@ for (const [index, page] of generatedGuidePages.entries()) {
   await writeFile(new URL("index.html", directory), generatedGuideHtml(page, index));
 }
 
+const aboutUrl = `${origin}/about/`;
+const aboutHtml = `<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>About TinyTask Lab | Browser-first Utility Tools</title><meta name="description" content="Learn what TinyTask Lab builds, how its browser-first tools handle inputs, and where to get support.">
+<link rel="canonical" href="${aboutUrl}"><meta property="og:type" content="website"><meta property="og:title" content="About TinyTask Lab"><meta property="og:description" content="Browser-first utility tools for small image, text, data, URL, and accessibility tasks."><meta property="og:url" content="${aboutUrl}"><meta property="og:image" content="${origin}/og.png"><link rel="stylesheet" href="../styles.css?v=paypal2">
+<script type="application/ld+json">${escapeJson({"@context":"https://schema.org","@type":"AboutPage","mainEntity":{"@type":"Organization","@id":`${origin}/#organization`,"name":"TinyTask Lab","url":origin,"email":"support@tinytasklab.com"}})}</script></head>
+<body><main id="toolPage"><nav class="site-nav shell"><a class="brand" href="../"><span class="brand-mark">T</span>TinyTask Lab</a><a class="back-link" href="../#tools">← All tools</a></nav>
+<header class="tool-header shell"><div class="tool-hero-badge accent-blue">TL</div><div><p class="eyebrow">Product information</p><h1>About TinyTask Lab</h1><p>Small, browser-first tools for common image, text, data, URL, and accessibility tasks.</p></div></header>
+<section class="seo-content shell"><article><h2>What TinyTask Lab is</h2><p>TinyTask Lab publishes focused utilities for jobs such as checking WCAG color contrast, compressing or resizing images, formatting JSON, converting CSV, building UTM links, and cleaning text. Each tool is designed for one bounded task rather than a broad workspace.</p><h2>How the tools work</h2><p>The public tools are designed to run in the current browser tab. They do not require an account to start. Where a tool processes a file or text input locally, that behavior is described on the tool page and in the <a href="../privacy/index.html">Privacy Policy</a>.</p><h2>Useful starting points</h2><ul><li><a href="../tools/contrast-checker/">WCAG Contrast Check</a> for foreground and background color ratios.</li><li><a href="../tools/image-compressor/">Image Squeeze</a> for browser-based image compression.</li><li><a href="../tools/json-formatter/">JSON Tidy</a> for validating and formatting JSON.</li></ul><h2>Support and policies</h2><p>For support, purchase, refund, or privacy questions, contact <a href="mailto:support@tinytasklab.com">support@tinytasklab.com</a>. See the <a href="../terms/index.html">Terms</a>, <a href="../privacy/index.html">Privacy Policy</a>, and <a href="../refunds/index.html">Refund Policy</a> for the governing details.</p></article></section>
+<footer class="site-footer shell"><span>© 2026 TinyTask Lab</span><span class="footer-links"><a href="../terms/index.html">Terms</a><a href="../privacy/index.html">Privacy</a><a href="../refunds/index.html">Refunds</a><a href="../contact/index.html">Contact</a></span></footer></main></body></html>`;
+await mkdir(new URL("./about/", import.meta.url), { recursive: true });
+await writeFile(new URL("./about/index.html", import.meta.url), aboutHtml);
+
+const llms = `# TinyTask Lab\n\n> Free, browser-first utility tools for small image, text, data, URL, and WCAG color-contrast tasks. Public tools do not require an account to start.\n\n## Core tools\n\n- [WCAG Contrast Check](${origin}/tools/contrast-checker/): Check foreground and background colors against WCAG AA and AAA contrast thresholds.\n- [Image Squeeze](${origin}/tools/image-compressor/): Compress JPG and PNG images in the browser.\n- [Quick Resize](${origin}/tools/image-resizer/): Resize an image to exact pixel dimensions.\n- [JSON Tidy](${origin}/tools/json-formatter/): Validate, format, and minify JSON.\n- [CSV Bridge](${origin}/tools/csv-to-json/): Convert CSV into JSON.\n- [UTM Craft](${origin}/tools/utm-builder/): Build campaign URLs with UTM parameters.\n\n## Primary reference pages\n\n- [About TinyTask Lab](${aboutUrl}): Product scope, browser-first processing, and support details.\n- [WCAG Contrast Ratio Guide](${guideUrl}): AA and AAA ratio thresholds and a practical checking workflow.\n- [Privacy Policy](${origin}/privacy/index.html): Data-handling information.\n- [Terms](${origin}/terms/index.html): Product terms.\n- [Refund Policy](${origin}/refunds/index.html): Purchase refund terms.\n- [Contact](${origin}/contact/index.html): Support contact.\n\n## Notes\n\n- Cite the specific tool or guide page for claims about a tool's capabilities.\n- WCAG contrast results are a focused color-pair check, not a full accessibility audit.\n- Do not infer account, cross-device transfer, or additional paid-feature commitments from the tools or purchase pages.\n`;
+await writeFile(new URL("./llms.txt", import.meta.url), llms);
+
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>${origin}/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
-${["terms", "privacy", "refunds", "contact"].map((page) => `  <url><loc>${origin}/${page}/index.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>`).join("\n")}
+${["about", "terms", "privacy", "refunds", "contact"].map((page) => `  <url><loc>${origin}/${page}/index.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>`).join("\n")}
   <url><loc>${guideUrl}</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
 ${generatedGuidePages.map((page) => `  <url><loc>${origin}/guides/${page.slug}/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>`).join("\n")}
 ${tools.map((tool) => `  <url><loc>${origin}/tools/${tool.slug}/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>`).join("\n")}

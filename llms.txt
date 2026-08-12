@@ -1,0 +1,27 @@
+# TinyTask Lab
+
+> Free, browser-first utility tools for small image, text, data, URL, and WCAG color-contrast tasks. Public tools do not require an account to start.
+
+## Core tools
+
+- [WCAG Contrast Check](https://tinytasklab.com/tools/contrast-checker/): Check foreground and background colors against WCAG AA and AAA contrast thresholds.
+- [Image Squeeze](https://tinytasklab.com/tools/image-compressor/): Compress JPG and PNG images in the browser.
+- [Quick Resize](https://tinytasklab.com/tools/image-resizer/): Resize an image to exact pixel dimensions.
+- [JSON Tidy](https://tinytasklab.com/tools/json-formatter/): Validate, format, and minify JSON.
+- [CSV Bridge](https://tinytasklab.com/tools/csv-to-json/): Convert CSV into JSON.
+- [UTM Craft](https://tinytasklab.com/tools/utm-builder/): Build campaign URLs with UTM parameters.
+
+## Primary reference pages
+
+- [About TinyTask Lab](https://tinytasklab.com/about/): Product scope, browser-first processing, and support details.
+- [WCAG Contrast Ratio Guide](https://tinytasklab.com/guides/wcag-contrast-ratio/): AA and AAA ratio thresholds and a practical checking workflow.
+- [Privacy Policy](https://tinytasklab.com/privacy/index.html): Data-handling information.
+- [Terms](https://tinytasklab.com/terms/index.html): Product terms.
+- [Refund Policy](https://tinytasklab.com/refunds/index.html): Purchase refund terms.
+- [Contact](https://tinytasklab.com/contact/index.html): Support contact.
+
+## Notes
+
+- Cite the specific tool or guide page for claims about a tool's capabilities.
+- WCAG contrast results are a focused color-pair check, not a full accessibility audit.
+- Do not infer account, cross-device transfer, or additional paid-feature commitments from the tools or purchase pages.
