@@ -278,6 +278,75 @@ const generatedGuidePages = [
   ["browser-productivity-tools", "Browser Productivity Tools for Everyday Tasks", "text-cleaner", "Use focused utilities to finish small file, text, data, and link tasks quickly."],
 ].map(([slug, title, tool, description]) => ({ slug, title, tool, description }));
 
+const wcagGuideDetails = {
+  "wcag-aa-vs-aaa": {
+    answer: "WCAG AA is the practical baseline for most product interfaces. AAA is a stricter target that can improve readability, but it is not realistic for every component or brand color.",
+    applies: "For normal text, AA requires 4.5:1 and AAA requires 7:1. For large text, AA requires 3:1 and AAA requires 4.5:1.",
+    checks: ["Set the product's minimum target before choosing colors.", "Use the normal-text threshold unless the text clearly qualifies as large text.", "Check component states separately instead of approving one default color pair."],
+  },
+  "4-5-1-contrast-ratio": {
+    answer: "A 4.5:1 contrast ratio is the WCAG AA minimum for normal-size text against its background.",
+    applies: "It applies to normal text in WCAG 2.x. Large text can use the lower 3:1 AA threshold, but thin or borderline-sized text should be treated as normal text.",
+    checks: ["Use the actual foreground and background colors, including opacity.", "Check hover, focus, error, and disabled states as separate pairs.", "Review the pair in the final font size and weight, not only as a swatch."],
+  },
+  "7-1-contrast-ratio": {
+    answer: "A 7:1 contrast ratio is the WCAG AAA target for normal-size text. It is stricter than the 4.5:1 AA baseline.",
+    applies: "AAA can be valuable for reading-heavy experiences or critical information, but an interface can still meet WCAG AA without every normal-text pair reaching 7:1.",
+    checks: ["Start by making essential text meet AA.", "Use 7:1 where the design system can support it without changing meaning or hierarchy.", "Do not use a higher ratio as a substitute for clear labels, size, and spacing."],
+  },
+  "large-text-contrast-rules": {
+    answer: "Large text may use a lower WCAG contrast threshold: 3:1 for AA and 4.5:1 for AAA.",
+    applies: "In WCAG 2.x, large text generally means at least 24 CSS pixels (about 18 pt), or at least 18.66 CSS pixels bold (about 14 pt bold). If there is doubt, use the normal-text threshold.",
+    checks: ["Measure the rendered text, not the design-tool label.", "Confirm the bold weight is actually used in the browser.", "Use normal-text thresholds for small labels, helper text, and most controls."],
+  },
+  "button-contrast-checklist": {
+    answer: "A button needs more than one passing text color. Its label, boundary or fill, focus indicator, and every interactive state need review.",
+    applies: "WCAG contrast requirements differ by element and state. A readable label can still fail if a visible control boundary or focus indicator disappears into the background.",
+    checks: ["Check label text against the button fill.", "Check the button boundary or fill against the surrounding surface.", "Test hover, focus, disabled, loading, and error states in the real UI."],
+  },
+  "link-color-contrast": {
+    answer: "Links must be readable against their background and should not rely on color alone to communicate that they are links.",
+    applies: "The link color needs an appropriate contrast ratio against its background. When links appear in body text, use another visual cue such as an underline or a non-color distinction.",
+    checks: ["Check the default and visited link colors against the page surface.", "Keep a persistent non-color cue for inline links where needed.", "Review hover and focus styles, not just the resting state."],
+  },
+  "placeholder-text-contrast": {
+    answer: "Placeholder text is often too faint to be useful. Treat it as supporting information, not as the only label for a required field.",
+    applies: "If placeholder text conveys useful information, users still need to be able to read it against the input surface. A visible label remains the safer pattern.",
+    checks: ["Keep a persistent field label outside the placeholder.", "Check placeholder text against the input background.", "Test empty, focused, filled, error, and disabled input states."],
+  },
+  "error-message-color-contrast": {
+    answer: "Error feedback must remain readable and understandable without relying on red alone.",
+    applies: "Error text, icons, field borders, and message surfaces each need to work in their actual context. The message should state the problem and the next action in text.",
+    checks: ["Check error text against the message background.", "Add descriptive text or an icon instead of communicating an error only by color.", "Test the field, summary, and focus destination together."],
+  },
+  "dark-mode-color-contrast": {
+    answer: "A color pair that passes on a light surface may fail in dark mode because the actual backgrounds, overlays, and component states change.",
+    applies: "Dark themes require their own review for body text, muted text, borders, icons, buttons, focus rings, overlays, and imagery.",
+    checks: ["Check every token against its dark-theme surface.", "Test text over elevated cards, dialogs, and translucent overlays.", "Review focus, selected, disabled, and error states on real devices."],
+  },
+  "color-contrast-accessibility-checklist": {
+    answer: "A useful color-contrast review checks real components and states, not just a single palette sheet.",
+    applies: "Contrast is one accessibility requirement among many. Passing a ratio does not replace testing labels, keyboard focus, text size, or meaning conveyed by color.",
+    checks: ["Check normal and large text using the appropriate threshold.", "Check controls, icons, focus indicators, and state changes in context.", "Record approved pairs as design tokens and retest them before release."],
+  },
+};
+
+function guideArticle(page, tool) {
+  const detail = wcagGuideDetails[page.slug];
+  if (!detail) {
+    return `<h2>What to check</h2><p>${page.description} Start with the real input, state, or output you are working with rather than a generic example. A focused check prevents small details from becoming rework later.</p>
+<h2>A practical workflow</h2><ol><li>Define the specific result you need before opening a tool.</li><li>Use a small, representative sample and review the output in context.</li><li>Keep the result only when it matches the requirement for the page, product, or campaign.</li></ol>
+<h2>Use ${tool.name} locally</h2><p>TinyTask Lab provides a browser-first ${tool.name} workflow for this task. It does not require an account, and the tool input stays in the current browser tab.</p>
+<p><a class="button primary" href="../../tools/${tool.slug}/">Open ${tool.name} →</a></p>
+<h2>Next step</h2><p>After completing this check, review the related guide below for another practical part of the same workflow.</p>`;
+  }
+  return `<h2>Short answer</h2><p>${detail.answer}</p>
+<h2>When this applies</h2><p>${detail.applies}</p>
+<h2>Practical review steps</h2><ol>${detail.checks.map((item) => `<li>${item}</li>`).join("")}</ol>
+<h2>Check the actual color pair</h2><p>Use the <a href="../../tools/${tool.slug}/">free ${tool.name}</a> with the foreground and background colors from the real component. It provides an immediate AA and AAA ratio check in the current browser tab.</p>
+<h2>Source and limit</h2><p>For the formal requirement, review <a href="https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html">W3C's WCAG contrast minimum guidance</a>. A ratio result checks a color pair; it is not a complete accessibility audit.</p>`;
+}
+
 function generatedGuideHtml(page, index) {
   const tool = tools.find((item) => item.slug === page.tool);
   const url = `${origin}/guides/${page.slug}/`;
@@ -299,11 +368,7 @@ function generatedGuideHtml(page, index) {
 <link rel="stylesheet" href="../../styles.css?v=paypal2"><script type="application/ld+json">${escapeJson(schema)}</script></head>
 <body><main id="toolPage"><nav class="site-nav shell"><a class="brand" href="../../"><span class="brand-mark">T</span>TinyTask Lab</a><a class="back-link" href="../../tools/${tool.slug}/">← ${tool.name}</a></nav>
 <header class="tool-header shell"><div class="tool-hero-badge accent-${tool.accent}">${tool.badge}</div><div><p class="eyebrow">${tool.category} guide</p><h1>${page.title}</h1><p>${page.description}</p></div></header>
-<section class="seo-content shell"><article><h2>What to check</h2><p>${page.description} Start with the real input, state, or output you are working with rather than a generic example. A focused check prevents small details from becoming rework later.</p>
-<h2>A practical workflow</h2><ol><li>Define the specific result you need before opening a tool.</li><li>Use a small, representative sample and review the output in context.</li><li>Keep the result only when it matches the requirement for the page, product, or campaign.</li></ol>
-<h2>Use ${tool.name} locally</h2><p>TinyTask Lab provides a browser-first ${tool.name} workflow for this task. It does not require an account, and the tool input stays in the current browser tab.</p>
-<p><a class="button primary" href="../../tools/${tool.slug}/">Open ${tool.name} →</a></p>
-<h2>Next step</h2><p>After completing this check, review the related guide below for another practical part of the same workflow.</p></article>
+<section class="seo-content shell"><article>${guideArticle(page, tool)}</article>
 <aside class="related-tools"><p class="eyebrow">Related guides</p><h2>Continue the workflow</h2>${related.map((item) => `<a href="../${item.slug}/">${item.title}<br><small>${item.description}</small></a>`).join("")}<a href="../${alternate.slug}/">${alternate.title}<br><small>${alternate.description}</small></a></aside></section>
 <footer class="site-footer shell"><span>© 2026 TinyTask Lab</span><span class="footer-links"><a href="../../terms/index.html">Terms</a><a href="../../privacy/index.html">Privacy</a><a href="../../refunds/index.html">Refunds</a><a href="../../contact/index.html">Contact</a></span></footer></main></body></html>`;
 }
@@ -313,6 +378,40 @@ for (const [index, page] of generatedGuidePages.entries()) {
   await mkdir(directory, { recursive: true });
   await writeFile(new URL("index.html", directory), generatedGuideHtml(page, index));
 }
+
+const wcagHubUrl = `${origin}/guides/wcag-color-contrast-resources/`;
+const wcagHubItems = [
+  ["WCAG Contrast Checker", `${origin}/tools/contrast-checker/`, "Check a foreground and background pair against AA and AAA thresholds."],
+  ["WCAG Contrast Ratio Guide", guideUrl, "Understand normal text, large text, AA, and AAA thresholds."],
+  ["WCAG AA vs AAA", `${origin}/guides/wcag-aa-vs-aaa/`, "Choose a practical contrast target for a product."],
+  ["4.5:1 Contrast Ratio", `${origin}/guides/4-5-1-contrast-ratio/`, "The AA baseline for normal text."],
+  ["7:1 Contrast Ratio", `${origin}/guides/7-1-contrast-ratio/`, "The AAA target for normal text."],
+  ["Button Contrast Checklist", `${origin}/guides/button-contrast-checklist/`, "Review labels, boundaries, focus, and states."],
+  ["Dark Mode Contrast Checklist", `${origin}/guides/dark-mode-color-contrast/`, "Review dark-theme text, surfaces, and states."],
+  ["Color Contrast Accessibility Checklist", `${origin}/guides/color-contrast-accessibility-checklist/`, "Use a final pre-release contrast review."],
+];
+const wcagHubSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "WCAG Color Contrast Resources",
+  description: "A practical collection of WCAG color contrast tools, thresholds, and checklists.",
+  url: wcagHubUrl,
+  isPartOf: { "@id": `${origin}/#organization` },
+  mainEntity: {
+    "@type": "ItemList",
+    itemListElement: wcagHubItems.map(([name, url], index) => ({ "@type": "ListItem", position: index + 1, name, url })),
+  },
+};
+const wcagHubHtml = `<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WCAG Color Contrast Resources: Tools, Ratios & Checklists | TinyTask Lab</title><meta name="description" content="Use practical WCAG color contrast tools, AA and AAA ratio guides, and component checklists for accessible interfaces.">
+<link rel="canonical" href="${wcagHubUrl}"><meta property="og:type" content="website"><meta property="og:title" content="WCAG Color Contrast Resources"><meta property="og:description" content="Tools, ratio explanations, and practical checklists for accessible color contrast."><meta property="og:url" content="${wcagHubUrl}"><meta property="og:image" content="${origin}/og.png"><meta name="twitter:card" content="summary_large_image"><link rel="stylesheet" href="../../styles.css?v=paypal2"><script type="application/ld+json">${escapeJson(wcagHubSchema)}</script></head>
+<body><main id="toolPage"><nav class="site-nav shell"><a class="brand" href="../../"><span class="brand-mark">T</span>TinyTask Lab</a><a class="back-link" href="../../tools/contrast-checker/">← Contrast checker</a></nav>
+<header class="tool-header shell"><div class="tool-hero-badge accent-lime">AA</div><div><p class="eyebrow">Accessibility resource hub</p><h1>WCAG color contrast resources</h1><p>Practical tools, thresholds, and checklists for reviewing text and interface colors before release.</p></div></header>
+<section class="seo-content shell"><article><h2>Start with the exact component</h2><p>Contrast requirements depend on the actual foreground, background, text size, and interface state. Check the live color pair first, then use the relevant guide to understand the threshold and edge cases.</p><h2>Core WCAG thresholds</h2><table><thead><tr><th>Content</th><th>AA</th><th>AAA</th></tr></thead><tbody><tr><td>Normal text</td><td>4.5:1</td><td>7:1</td></tr><tr><td>Large text</td><td>3:1</td><td>4.5:1</td></tr></tbody></table><p>These figures are useful starting points, but accessibility also requires clear labels, visible focus, readable typography, and testing in context.</p><h2>Tools and guides</h2>${wcagHubItems.map(([name, url, description]) => `<p><a href="${url}"><strong>${name}</strong></a><br>${description}</p>`).join("")}<h2>Source</h2><p>For formal interpretation, consult the <a href="https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html">W3C WCAG contrast minimum guidance</a>.</p></article></section>
+<footer class="site-footer shell"><span>© 2026 TinyTask Lab</span><span class="footer-links"><a href="../../about/">About</a><a href="../../terms/index.html">Terms</a><a href="../../privacy/index.html">Privacy</a><a href="../../contact/index.html">Contact</a></span></footer></main></body></html>`;
+await mkdir(new URL("./guides/wcag-color-contrast-resources/", import.meta.url), { recursive: true });
+await writeFile(new URL("./guides/wcag-color-contrast-resources/index.html", import.meta.url), wcagHubHtml);
 
 const aboutUrl = `${origin}/about/`;
 const aboutHtml = `<!doctype html>
@@ -335,6 +434,7 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
   <url><loc>${origin}/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
 ${["about", "terms", "privacy", "refunds", "contact"].map((page) => `  <url><loc>${origin}/${page}/index.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>`).join("\n")}
   <url><loc>${guideUrl}</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>${wcagHubUrl}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 ${generatedGuidePages.map((page) => `  <url><loc>${origin}/guides/${page.slug}/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>`).join("\n")}
 ${tools.map((tool) => `  <url><loc>${origin}/tools/${tool.slug}/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>`).join("\n")}
 </urlset>
