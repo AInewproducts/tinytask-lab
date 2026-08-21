@@ -15,6 +15,8 @@
 
 - [About TinyTask Lab](https://tinytasklab.com/about/): Product scope, browser-first processing, and support details.
 - [WCAG Contrast Ratio Guide](https://tinytasklab.com/guides/wcag-contrast-ratio/): AA and AAA ratio thresholds and a practical checking workflow.
+- [Unix Timestamp Conversion Resources](https://tinytasklab.com/guides/unix-timestamp-resources/): Timestamp, date, seconds, milliseconds, and timezone guidance.
+- [Image Compression Resources](https://tinytasklab.com/guides/image-compression-resources/): Browser-first JPG, PNG, website-image, and file-size guidance.
 - [Privacy Policy](https://tinytasklab.com/privacy/index.html): Data-handling information.
 - [Terms](https://tinytasklab.com/terms/index.html): Product terms.
 - [Refund Policy](https://tinytasklab.com/refunds/index.html): Purchase refund terms.
