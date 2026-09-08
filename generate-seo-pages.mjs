@@ -74,6 +74,8 @@ function seoDetails(tool) {
         <h3>How to use this contrast checker</h3>
         <ol><li>Enter or select a foreground text color and a background color.</li><li>Review the contrast ratio and the AA or AAA result.</li><li>Adjust either color until the pair meets the level you need.</li></ol>
         <p><a href="../../guides/wcag-contrast-ratio/">Read the WCAG contrast-ratio guide</a> for the thresholds, the large-text exception, and practical color-pair checks.</p>
+        <h3>Check component states, not just one color token</h3>
+        <p>Test the actual foreground and background used for default, hover, focus, disabled, and error states. A token that passes on a white canvas can fail on a tinted surface, image overlay, or dark-mode component. A passing ratio is one focused color-pair check, not a full accessibility audit.</p>
         <h3>Does this work for WCAG 2.1 and mobile?</h3>
         <p>Yes. Contrast-ratio requirements apply across modern web and mobile interfaces. The checker works in current phone, tablet, and desktop browsers.</p>
         <h3>Is this color contrast checker private?</h3>
@@ -138,6 +140,9 @@ for (const [index, tool] of tools.entries()) {
       })),
     });
   }
+  const relatedContent = tool.slug === "contrast-checker"
+    ? `<p class="eyebrow">WCAG resources</p><h2>Continue the contrast review</h2><a href="../../guides/wcag-color-contrast-resources/">WCAG color contrast resources<br><small>Find the tool, thresholds, component checklists, and practical next steps in one place.</small></a><a href="../../guides/wcag-aa-vs-aaa/">WCAG AA vs AAA<br><small>Choose a practical contrast target for the product and content you are reviewing.</small></a><a href="../../guides/color-contrast-accessibility-checklist/">Color contrast accessibility checklist<br><small>Check text, controls, states, and imagery before release.</small></a>`
+    : `<p class="eyebrow">More tiny tasks</p><h2>Related browser tools</h2>${related.map((item) => `<a href="../${item.slug}/">${item.name}<br><small>${item.description}</small></a>`).join("")}`;
   const html = `<!doctype html>
 <html lang="en">
 <head>
@@ -165,7 +170,7 @@ for (const [index, tool] of tools.entries()) {
       <article>
         ${seo.content}
       </article>
-      <aside class="related-tools"><p class="eyebrow">More tiny tasks</p><h2>Related browser tools</h2>${related.map((item) => `<a href="../${item.slug}/">${item.name}<br><small>${item.description}</small></a>`).join("")}</aside>
+      <aside class="related-tools">${relatedContent}</aside>
     </section>
     <footer class="site-footer shell"><span>© 2026 TinyTask Lab</span><span class="footer-links"><a href="../../terms/index.html">Terms</a><a href="../../privacy/index.html">Privacy</a><a href="../../refunds/index.html">Refunds</a><a href="../../contact/index.html">Contact</a></span></footer>
   </main>
