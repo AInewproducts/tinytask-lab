@@ -16,7 +16,7 @@ const basePath=location.pathname.includes("/tinytask-lab/")?"/tinytask-lab":"";
 const paymentApi="https://api.tinytasklab.com";
 const metricEvents=new Set(["page_view","tool_start","tool_success","download","upgrade_click","error"]);
 const metricTool=value=>/^(home|[a-z0-9]+(?:-[a-z0-9]+)*)$/.test(value||"")?value:"home";
-function sendMetric(event,tool){if(!metricEvents.has(event))return;fetch(`${paymentApi}/api/metrics`,{method:"POST",body:JSON.stringify({event,tool:metricTool(tool)}),keepalive:true,credentials:"omit",referrerPolicy:"no-referrer"}).catch(()=>{})}
+function sendMetric(event,tool){if(!metricEvents.has(event))return;const safeTool=metricTool(tool);fetch(`${paymentApi}/api/metrics`,{method:"POST",body:JSON.stringify({event,tool:safeTool}),keepalive:true,credentials:"omit",referrerPolicy:"no-referrer"}).catch(()=>{});window.tinytaskAnalyticsTrack?.(event,safeTool)}
 window.tinytaskTrack=(event,detail={})=>{const normalized=event==="tool_complete"?"tool_success":event==="tool_download"?"download":event;sendMetric(normalized,detail?.tool_name)};
 const proTokenKey="tinytask-pro-token";
 const freeDailyLimit=5;
