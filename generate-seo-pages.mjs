@@ -175,7 +175,7 @@ for (const [index, tool] of tools.entries()) {
     <footer class="site-footer shell"><span>© 2026 TinyTask Lab</span><span class="footer-links"><a href="../../terms/index.html">Terms</a><a href="../../privacy/index.html">Privacy</a><a href="../../refunds/index.html">Refunds</a><a href="../../contact/index.html">Contact</a></span></footer>
   </main>
   <script src="../../app.js?v=traffic-metrics-1"></script>
-  <script defer src="../../analytics.js?v=ga4-consent-1"></script>
+  <script defer src="../../analytics.js?v=ga4-consent-2"></script>
 </body>
 </html>`;
   const directory = new URL(`./tools/${tool.slug}/`, import.meta.url);
@@ -235,7 +235,7 @@ const guideHtml = `<!doctype html>
     </section>
     <footer class="site-footer shell"><span>© 2026 TinyTask Lab</span><span class="footer-links"><a href="../../terms/index.html">Terms</a><a href="../../privacy/index.html">Privacy</a><a href="../../refunds/index.html">Refunds</a><a href="../../contact/index.html">Contact</a></span></footer>
   </main>
-  <script defer src="../../analytics.js?v=ga4-consent-1"></script>
+  <script defer src="../../analytics.js?v=ga4-consent-2"></script>
 </body>
 </html>`;
 const guideDirectory = new URL("./guides/wcag-contrast-ratio/", import.meta.url);
@@ -471,7 +471,7 @@ function generatedGuideHtml(page, index) {
 <header class="tool-header shell"><div class="tool-hero-badge accent-${tool.accent}">${tool.badge}</div><div><p class="eyebrow">${tool.category} guide</p><h1>${page.title}</h1><p>${page.description}</p></div></header>
 <section class="seo-content shell"><article>${guideArticle(page, tool)}</article>
 <aside class="related-tools"><p class="eyebrow">Related guides</p><h2>Continue the workflow</h2>${related.map((item) => `<a href="../${item.slug}/">${item.title}<br><small>${item.description}</small></a>`).join("")}<a href="../${alternate.slug}/">${alternate.title}<br><small>${alternate.description}</small></a></aside></section>
-<footer class="site-footer shell"><span>© 2026 TinyTask Lab</span><span class="footer-links"><a href="../../terms/index.html">Terms</a><a href="../../privacy/index.html">Privacy</a><a href="../../refunds/index.html">Refunds</a><a href="../../contact/index.html">Contact</a></span></footer></main><script defer src="../../analytics.js?v=ga4-consent-1"></script></body></html>`;
+<footer class="site-footer shell"><span>© 2026 TinyTask Lab</span><span class="footer-links"><a href="../../terms/index.html">Terms</a><a href="../../privacy/index.html">Privacy</a><a href="../../refunds/index.html">Refunds</a><a href="../../contact/index.html">Contact</a></span></footer></main><script defer src="../../analytics.js?v=ga4-consent-2"></script></body></html>`;
 }
 
 for (const [index, page] of generatedGuidePages.entries()) {
@@ -510,7 +510,7 @@ const wcagHubHtml = `<!doctype html>
 <body><main id="toolPage"><nav class="site-nav shell"><a class="brand" href="../../"><span class="brand-mark">T</span>TinyTask Lab</a><a class="back-link" href="../../tools/contrast-checker/">← Contrast checker</a></nav>
 <header class="tool-header shell"><div class="tool-hero-badge accent-lime">AA</div><div><p class="eyebrow">Accessibility resource hub</p><h1>WCAG color contrast resources</h1><p>Practical tools, thresholds, and checklists for reviewing text and interface colors before release.</p></div></header>
 <section class="seo-content shell"><article><h2>Start with the exact component</h2><p>Contrast requirements depend on the actual foreground, background, text size, and interface state. Check the live color pair first, then use the relevant guide to understand the threshold and edge cases.</p><h2>Core WCAG thresholds</h2><table><thead><tr><th>Content</th><th>AA</th><th>AAA</th></tr></thead><tbody><tr><td>Normal text</td><td>4.5:1</td><td>7:1</td></tr><tr><td>Large text</td><td>3:1</td><td>4.5:1</td></tr></tbody></table><p>These figures are useful starting points, but accessibility also requires clear labels, visible focus, readable typography, and testing in context.</p><h2>Tools and guides</h2>${wcagHubItems.map(([name, url, description]) => `<p><a href="${url}"><strong>${name}</strong></a><br>${description}</p>`).join("")}<h2>Source</h2><p>For formal interpretation, consult the <a href="https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html">W3C WCAG contrast minimum guidance</a>.</p></article></section>
-<footer class="site-footer shell"><span>© 2026 TinyTask Lab</span><span class="footer-links"><a href="../../about/">About</a><a href="../../terms/index.html">Terms</a><a href="../../privacy/index.html">Privacy</a><a href="../../contact/index.html">Contact</a></span></footer></main><script defer src="../../analytics.js?v=ga4-consent-1"></script></body></html>`;
+<footer class="site-footer shell"><span>© 2026 TinyTask Lab</span><span class="footer-links"><a href="../../about/">About</a><a href="../../terms/index.html">Terms</a><a href="../../privacy/index.html">Privacy</a><a href="../../contact/index.html">Contact</a></span></footer></main><script defer src="../../analytics.js?v=ga4-consent-2"></script></body></html>`;
 await mkdir(new URL("./guides/wcag-color-contrast-resources/", import.meta.url), { recursive: true });
 await writeFile(new URL("./guides/wcag-color-contrast-resources/index.html", import.meta.url), wcagHubHtml);
 
@@ -539,7 +539,7 @@ const timestampHubHtml = `<!doctype html>
 <body><main id="toolPage"><nav class="site-nav shell"><a class="brand" href="../../"><span class="brand-mark">T</span>TinyTask Lab</a><a class="back-link" href="../../tools/timestamp-converter/">← Timestamp converter</a></nav>
 <header class="tool-header shell"><div class="tool-hero-badge accent-blue">00</div><div><p class="eyebrow">Developer resource hub</p><h1>Unix timestamp conversion resources</h1><p>Practical tools and checks for timestamps, readable dates, seconds, milliseconds, and timezones.</p></div></header>
 <section class="seo-content shell"><article><h2>Start with the value's unit and timezone</h2><p>A Unix timestamp identifies an instant. To interpret it correctly, first confirm whether the source uses seconds or milliseconds, then choose the timezone used for display. This prevents the two most common conversion mistakes.</p><h2>Quick conversion workflow</h2><ol><li>Keep the original timestamp and identify its source field or API.</li><li>Check whether it is seconds or milliseconds.</li><li>Convert it and compare the result with a known event time in the correct timezone.</li></ol><h2>Tools and guides</h2>${timestampHubItems.map(([name, url, description]) => `<p><a href="${url}"><strong>${name}</strong></a><br>${description}</p>`).join("")}<h2>Use the converter locally</h2><p><a class="button primary" href="../../tools/timestamp-converter/">Open Unix Timestamp Converter →</a></p></article></section>
-<footer class="site-footer shell"><span>© 2026 TinyTask Lab</span><span class="footer-links"><a href="../../about/">About</a><a href="../../privacy/index.html">Privacy</a><a href="../../contact/index.html">Contact</a></span></footer></main><script defer src="../../analytics.js?v=ga4-consent-1"></script></body></html>`;
+<footer class="site-footer shell"><span>© 2026 TinyTask Lab</span><span class="footer-links"><a href="../../about/">About</a><a href="../../privacy/index.html">Privacy</a><a href="../../contact/index.html">Contact</a></span></footer></main><script defer src="../../analytics.js?v=ga4-consent-2"></script></body></html>`;
 await mkdir(new URL("./guides/unix-timestamp-resources/", import.meta.url), { recursive: true });
 await writeFile(new URL("./guides/unix-timestamp-resources/index.html", import.meta.url), timestampHubHtml);
 
@@ -581,7 +581,7 @@ const aboutHtml = `<!doctype html>
 <body><main id="toolPage"><nav class="site-nav shell"><a class="brand" href="../"><span class="brand-mark">T</span>TinyTask Lab</a><a class="back-link" href="../#tools">← All tools</a></nav>
 <header class="tool-header shell"><div class="tool-hero-badge accent-blue">TL</div><div><p class="eyebrow">Product information</p><h1>About TinyTask Lab</h1><p>Small, browser-first tools for common image, text, data, URL, and accessibility tasks.</p></div></header>
 <section class="seo-content shell"><article><h2>What TinyTask Lab is</h2><p>TinyTask Lab publishes focused utilities for jobs such as checking WCAG color contrast, compressing or resizing images, formatting JSON, converting CSV, building UTM links, and cleaning text. Each tool is designed for one bounded task rather than a broad workspace.</p><h2>How the tools work</h2><p>The public tools are designed to run in the current browser tab. They do not require an account to start. Where a tool processes a file or text input locally, that behavior is described on the tool page and in the <a href="../privacy/index.html">Privacy Policy</a>.</p><h2>Useful starting points</h2><ul><li><a href="../tools/contrast-checker/">WCAG Contrast Check</a> for foreground and background color ratios.</li><li><a href="../tools/image-compressor/">Image Squeeze</a> for browser-based image compression.</li><li><a href="../tools/json-formatter/">JSON Tidy</a> for validating and formatting JSON.</li></ul><h2>Support and policies</h2><p>For support, purchase, refund, or privacy questions, contact <a href="mailto:support@tinytasklab.com">support@tinytasklab.com</a>. See the <a href="../terms/index.html">Terms</a>, <a href="../privacy/index.html">Privacy Policy</a>, and <a href="../refunds/index.html">Refund Policy</a> for the governing details.</p></article></section>
-<footer class="site-footer shell"><span>© 2026 TinyTask Lab</span><span class="footer-links"><a href="../terms/index.html">Terms</a><a href="../privacy/index.html">Privacy</a><a href="../refunds/index.html">Refunds</a><a href="../contact/index.html">Contact</a></span></footer></main><script defer src="../analytics.js?v=ga4-consent-1"></script></body></html>`;
+<footer class="site-footer shell"><span>© 2026 TinyTask Lab</span><span class="footer-links"><a href="../terms/index.html">Terms</a><a href="../privacy/index.html">Privacy</a><a href="../refunds/index.html">Refunds</a><a href="../contact/index.html">Contact</a></span></footer></main><script defer src="../analytics.js?v=ga4-consent-2"></script></body></html>`;
 await mkdir(new URL("./about/", import.meta.url), { recursive: true });
 await writeFile(new URL("./about/index.html", import.meta.url), aboutHtml);
 

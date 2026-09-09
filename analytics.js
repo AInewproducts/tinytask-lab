@@ -31,6 +31,12 @@
     if (choice === "granted") loadAnalytics();
   }
 
+  function resetPreference() {
+    localStorage.removeItem(consentKey);
+    document.querySelector(".analytics-consent")?.remove();
+    showConsent();
+  }
+
   function showConsent() {
     if (localStorage.getItem(consentKey)) {
       if (localStorage.getItem(consentKey) === "granted") loadAnalytics();
@@ -47,6 +53,10 @@
     });
     document.body.append(banner);
   }
+
+  document.addEventListener("click", (event) => {
+    if (event.target.closest("[data-analytics-reset]")) resetPreference();
+  });
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", showConsent, { once: true });
   else showConsent();
